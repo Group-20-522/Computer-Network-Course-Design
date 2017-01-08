@@ -6,12 +6,10 @@
 #define maxValue 100000000.0 //最大浮点数
 #define max 100
 using namespace std;
-char filename1[50]="/Users/apple/Desktop/Topology.txt";//读入的文件名字
-char filename2[50]="/Users/apple/Desktop/Routing_Table.txt";//输出的文件名。暂时没用到
+char filename1[50]="/Users/tanlizhan/Desktop/Topology.txt";//读入的文件名字
+char filename2[50]="/Users/tanlizhan/Desktop/Routing_Table.txt";//输出的文件名。暂时没用到
 fstream fin;
 ofstream fout;
-
-
 struct Edge//边结点定义
 {
     int dest;//下一个路由代号
@@ -20,22 +18,18 @@ struct Edge//边结点定义
     Edge():next(NULL){};
     Edge(int dest):dest(dest),next(NULL){}//构造函数
 };
-
-
 struct Vertex//路由结点
 {
     char route[5];//路由号
     char network[10];//连接网络号
     struct Edge *head;//指向边结点链表头
 };
-
 class Graphlnk
 {
 private:
     int maxVertexs;//允许路由器数目
     int numVertexs;//当前路由器数目
     Vertex NodeTable[max];//顶点表
-    
 public:
     Graphlnk(int sz)
     {
@@ -100,7 +94,6 @@ bool Graphlnk::Cheat(char *route)
     }
     return true;//需要加入此路由器
 }
-
 bool Graphlnk::Cheat_Edge(char *route1,char *route2)
 {
     int v1,v2;
@@ -137,7 +130,6 @@ bool Graphlnk::Cheat_Edge(char *route1,char *route2)
     }
     return false;
 }
-
 int Graphlnk::getMetric_Vehicle(int v1,int v2)
 {
     if(v1!=-1&&v2!=-1)
@@ -154,17 +146,13 @@ int Graphlnk::getMetric_Vehicle(int v1,int v2)
     }
     return maxValue;
 }
-
-
-
-
 bool Graphlnk::insertVertex(char *route,char *network)//添加路由器
 {
-    if(numVertexs==maxVertexs)
-    {
-        cerr<<"满，不能插入"<<endl;
-        return false;
-    }
+    /*if(numVertexs==maxVertexs)
+     {
+     cerr<<"满，不能插入"<<endl;
+     return false;
+     }*/
     for(int i=0;i<5;++i)
     {
         NodeTable[numVertexs].route[i]=route[i];
@@ -176,7 +164,6 @@ bool Graphlnk::insertVertex(char *route,char *network)//添加路由器
     numVertexs++;
     return true;
 }
-
 bool Graphlnk::deleteEdge(int v1,int v2)//删边
 {
     if(v1!=-1&&v2!=-1)
@@ -226,8 +213,6 @@ bool Graphlnk::deleteEdge(int v1,int v2)//删边
     }
     return false;
 }
-
-
 bool Graphlnk::deleteVertex(char *route)//删除路由器
 {
     int v=getNodeDest(route);//得到路由器代号
@@ -293,8 +278,6 @@ bool Graphlnk::deleteVertex(char *route)//删除路由器
     }
     return true;
 }
-
-
 bool Graphlnk::insertEdge(int v1,int v2,int metric)//添边
 {
     if(v1>=0&&v1<numVertexs&&v2>=0&&v2<numVertexs)
@@ -335,11 +318,6 @@ bool Graphlnk::insertEdge(int v1,int v2,int metric)//添边
     }
     return false;
 }
-
-
-
-
-
 void Shortest_Path(Graphlnk &G,int v,int *dist,int *path)
 {
     int n=G.NumberOfVertices();//得路由器数目
@@ -384,11 +362,6 @@ void Shortest_Path(Graphlnk &G,int v,int *dist,int *path)
         }
     }
 }
-
-
-
-
-
 void Out(Graphlnk G,int *path,int *dist,int v1,int v2,int &metric,char *route)//输出最短路径第一邻接路由表
 {
     metric=dist[v2];
@@ -406,8 +379,6 @@ void Out(Graphlnk G,int *path,int *dist,int v1,int v2,int &metric,char *route)//
         G.getName(temp,route);
     }
 }
-
-
 void FinData(Graphlnk &G,char *filename)
 {
     fin.open(filename);
@@ -465,94 +436,85 @@ void Graphlnk::Foutdata(char *route)
     int metric,v1;
     v1=getNodeDest(route);
     Shortest_Path(*this,v1,dist,path);
-    /*remove(filename2);
-    fout.open(filename2);
-    if(!fout)
-    {
-        cout<<"保存失败"<<endl;
-        exit(1);
-    }*/
     int n=NumberOfVertices();
+    cout<<"       所查路由器路由表"<<endl;
     cout<<"目的网络\t\t距离\t\t下一跳路由表\n";
     for(int i=0;i<n;++i)
     {
-            cout<<NodeTable[i].network<<"\t\t";
-            Out(*this,path,dist,v1,i,metric,route);
-            cout<<metric<<"\t\t";
-            if(route[0]=='0')
-            {
-                cout<<"直接交付"<<endl;
-            }
-            else
-            {
-                cout<<route<<endl;
-            }
-        
+        cout<<NodeTable[i].network<<"\t\t";
+        Out(*this,path,dist,v1,i,metric,route);
+        cout<<metric<<"\t\t";
+        if(route[0]=='0')
+        {
+            cout<<"直接交付"<<endl;
+        }
+        else
+        {
+            cout<<route<<endl;
+        }
     }
-    
-    //fout.close();
 }
-
-
 int main()
 {
     Graphlnk Cloud(max);
     FinData(Cloud,filename1);
     char route[5];
-    /*cout<<"路由号？？:";
-    cin>>route;
-    Cloud.Foutdata(route);*/
     char a='@';
     while(a!='#')
     {
-        cout<<"---------------------------"<<endl;
-        cout<<"-  生成指定路由器的路由表->1  -"<<endl;
-        cout<<"-     修改网络的拓扑-->2     -"<<endl;
-        cout<<"-          退出-->#        -"<<endl;
-        cout<<"---------------------------"<<endl;
+        cout<<"***********菜单***********"<<endl;
+        cout<<"* 1.生成指定路由器的路由表  *"<<endl;
+        cout<<"* 2.   修改当前网络拓扑    *"<<endl;
+        cout<<"* 3.       退出          *"<<endl;
+        cout<<"*************************"<<endl;
+        cout<<"请输入对应执行步骤序号：";
         cin>>a;
+        cout<<endl;
         switch(a)
         {
-                case '1':
-                    cout<<"路由号？？:";
-                    cin>>route;
-                    if(Cloud.Cheat(route)==true)
-                    {
-                        cout<<"没有此路由器"<<endl;
-                    }
-                    else
-                    {
-                        Cloud.Foutdata(route);
-                    }
+            case '1':
+                cout<<"请输入路由号(输入格式为R?):";
+                cin>>route;
+                if(Cloud.Cheat(route)==true)
+                {
+                    cout<<"没有此路由器"<<endl;
+                }
+                else
+                {
+                    Cloud.Foutdata(route);
+                    cout<<endl;
+                }
                 break;
-                case '2':
-                    char route1[5],route2[5];
-                    cout<<"------------------------"<<endl;
-                    cout<<"-     去掉指定路由器->1  -"<<endl;
-                    cout<<"-     去掉指定边-->2     -"<<endl;
-                    cout<<"-     加指定路由器-->3     -"<<endl;
-                    cout<<"-     加指定边-->4     -"<<endl;
-                    cout<<"-        输入其他退出       -"<<endl;
-                    cout<<"------------------------"<<endl;
+            case '2':
+                char route1[5],route2[5];
+                cout<<"******子菜单*******"<<endl;
+                cout<<"* 1.删除指定路由器 *"<<endl;
+                cout<<"* 2. 删除指定边   *"<<endl;
+                cout<<"* 3.添加指定路由器 *"<<endl;
+                cout<<"* 4. 添加加指定边  *"<<endl;
+                cout<<"*   输入其他退出   *"<<endl;
+                cout<<"******************"<<endl;
                 char choose;
-                cout<<"选择：";
+                cout<<"请输入对应执行步骤序号：";
                 cin>>choose;
+                cout<<endl;
                 if(choose=='1')
                 {
-                    cout<<"路由号(格式->R几)？？:";
+                    cout<<"请输入路由号(输入格式为R?):";
                     cin>>route;
                     if(Cloud.Cheat(route)==true)
                     {
-                        cout<<"原本就没有该路由器"<<endl;
+                        cout<<"图中没有该路由器"<<endl;
                     }
                     else
                     {
                         Cloud.deleteVertex(route);
                     }
+                    cout<<endl;
                 }
                 if(choose=='2')
                 {
-                    cout<<"相邻两路由器(格式->R几)：：：";
+                    cout<<"请分别输入该边两端路由器"<<endl;
                     cout<<"一端:";
                     cin>>route1;
                     cout<<"另一端:";
@@ -565,26 +527,28 @@ int main()
                     {
                         cout<<"不存在此边"<<endl;
                     }
+                    cout<<endl;
                 }
                 if(choose=='3')
                 {
-                    cout<<"路由号(格式->R几)？？:";
+                    cout<<"请输入路由号(输入格式为R?):";
                     cin>>route;
                     if(Cloud.Cheat(route)==false)
                     {
-                        cout<<"已经有该路由器"<<endl;
+                        cout<<"图中已有该路由器"<<endl;
                     }
                     else
                     {
                         char network[10];
-                        cout<<"该路由器连接的网络？？:--(x.x.x.x)";
+                        cout<<"请输入该路由器连接的网络(输入格式为?.x.x.x):";
                         cin>>network;
                         Cloud.insertVertex(route, network);
                     }
+                    cout<<endl;
                 }
                 if(choose=='4')
                 {
-                    cout<<"相邻两路由器(格式->R几)：：：";
+                    cout<<"请分别输入该边两端路由器"<<endl;
                     cout<<"一端:";
                     cin>>route1;
                     cout<<"另一端:";
@@ -596,26 +560,21 @@ int main()
                     else
                     {
                         int mertic;
-                        cout<<"度量??:";
+                        cout<<"该边的度量为:";
                         cin>>mertic;
                         Cloud.insertEdge(Cloud.getNodeDest(route1),Cloud.getNodeDest(route2),mertic);
                     }
+                    cout<<endl;
                 }
                 break;
-                case '#':
-                break;
-                default:
-                    cout<<"选项错误"<<endl;
+            case '3':
+                return 0;
+            default:
+                cout<<"选项错误"<<endl;
                 break;
         }
-        
-        
-        
-        
-        
     }
-    
-    
+    return 0;
 }
 
 

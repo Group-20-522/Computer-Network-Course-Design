@@ -6,8 +6,8 @@
 #define maxValue 100000000.0 //最大浮点数
 #define max 100
 using namespace std;
-char filename1[50]="/Users/apple/Desktop/Topology";//读入的文件名字
-char filename2[50]="/Users/apple/Desktop/Routing_Table";//输出的文件名。暂时没用到
+char filename1[50]="/Users/apple/Desktop/Topology.txt";//读入的文件名字
+char filename2[50]="/Users/apple/Desktop/Routing_Table.txt";//输出的文件名。暂时没用到
 fstream fin;
 ofstream fout;
 
@@ -28,7 +28,6 @@ struct Vertex//路由结点
     char network[10];//连接网络号
     struct Edge *head;//指向边结点链表头
 };
-
 
 class Graphlnk
 {
@@ -314,9 +313,7 @@ bool Graphlnk::insertEdge(int v1,int v2,int metric)//添边
         p=new Edge;
         
         p->dest=v2;
-        //cout<<"p->dest="<<v2<<endl;
         p->metric=metric;
-        //cout<<"p->metric="<<metric<<endl;
         p->next=NodeTable[v1].head;
         NodeTable[v1].head=p;
         while(q!=NULL&&q->dest!=v1)
@@ -331,9 +328,7 @@ bool Graphlnk::insertEdge(int v1,int v2,int metric)//添边
         }
         q=new Edge;
         q->dest=v1;
-        //cout<<"q->dest="<<v1<<endl;
         q->metric=metric;
-        //cout<<"q->metric="<<metric<<endl<<endl;
         q->next=NodeTable[v2].head;
         NodeTable[v2].head=q;
         return true;
@@ -353,12 +348,10 @@ void Shortest_Path(Graphlnk &G,int v,int *dist,int *path)
     for(i=0;i<n;++i)//初始化
     {
         dist[i]=G.getMetric_Vehicle(v,i);//
-        //cout<<"直达到"<<i+1<<"花费"<<dist[i]<<endl;//****
         S[i]=false;
         if(i!=v&&dist[i]<maxValue)
         {
             path[i]=v;//直达路径
-            //cout<<i<<"的前面是"<<v<<endl;//***
         }
         else
         {
@@ -466,7 +459,7 @@ void FinData(Graphlnk &G,char *filename)
     fin.close();
 }
 
-void Graphlnk::Foutdata(char *route)//目前是输出到屏幕。注释部分为输出到文件。
+void Graphlnk::Foutdata(char *route)
 {
     int dist[max],path[max];
     int metric,v1;
@@ -506,6 +499,9 @@ int main()
     Graphlnk Cloud(max);
     FinData(Cloud,filename1);
     char route[5];
+    /*cout<<"路由号？？:";
+    cin>>route;
+    Cloud.Foutdata(route);*/
     char a='@';
     while(a!='#')
     {
@@ -543,7 +539,7 @@ int main()
                 cin>>choose;
                 if(choose=='1')
                 {
-                    cout<<"路由号？？:";
+                    cout<<"路由号(格式->R几)？？:";
                     cin>>route;
                     if(Cloud.Cheat(route)==true)
                     {
@@ -556,7 +552,7 @@ int main()
                 }
                 if(choose=='2')
                 {
-                    cout<<"相邻两路由器：：：";
+                    cout<<"相邻两路由器(格式->R几)：：：";
                     cout<<"一端:";
                     cin>>route1;
                     cout<<"另一端:";
@@ -572,7 +568,7 @@ int main()
                 }
                 if(choose=='3')
                 {
-                    cout<<"路由号？？:";
+                    cout<<"路由号(格式->R几)？？:";
                     cin>>route;
                     if(Cloud.Cheat(route)==false)
                     {
@@ -588,7 +584,7 @@ int main()
                 }
                 if(choose=='4')
                 {
-                    cout<<"相邻两路由器：：：";
+                    cout<<"相邻两路由器(格式->R几)：：：";
                     cout<<"一端:";
                     cin>>route1;
                     cout<<"另一端:";

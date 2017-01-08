@@ -6,8 +6,8 @@
 #define maxValue 100000000.0 //最大浮点数
 #define max 100
 using namespace std;
-char filename1[50]="/Users/apple/Desktop/Topology.txt";//读入的文件名字
-char filename2[50]="/Users/apple/Desktop/Routing_Table.txt";//输出的文件名。暂时没用到
+char filename1[50]="./Topology.txt";//读入的文件名字
+char filename2[50]="./Routing_Table.txt";//输出的文件名。暂时没用到
 fstream fin;
 ofstream fout;
 
@@ -35,7 +35,7 @@ private:
     int maxVertexs;//允许路由器数目
     int numVertexs;//当前路由器数目
     Vertex NodeTable[max];//顶点表
-    
+
 public:
     Graphlnk(int sz)
     {
@@ -311,7 +311,7 @@ bool Graphlnk::insertEdge(int v1,int v2,int metric)//添边
             return false;
         }
         p=new Edge;
-        
+
         p->dest=v2;
         p->metric=metric;
         p->next=NodeTable[v1].head;
@@ -487,9 +487,9 @@ void Graphlnk::Foutdata(char *route)
             {
                 cout<<route<<endl;
             }
-        
+
     }
-    
+
     //fout.close();
 }
 
@@ -608,14 +608,14 @@ int main()
                     cout<<"选项错误"<<endl;
                 break;
         }
-        
-        
-        
-        
-        
+
+
+
+
+
     }
-    
-    
+
+
 }
 
 

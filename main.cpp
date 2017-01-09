@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdlib.h>
-#include <conio.h>
 #include "Manage.h"
 
 using namespace std;
@@ -27,7 +26,7 @@ char Menu() //≤Àµ•∏Ò Ω
     cout<<"\t-----------------------------------------"<<endl;
     cout<<"\t:-> _";
     char x;
-    do{cout<<"\b";x=getche();}while(x!='0'&&x!='1'&&x!='2');
+    do{cout<<"\b";cin>>x;}while(x!='0'&&x!='1'&&x!='2');
     if(x=='0') {save(Cloud,filename1);exit(0);}
     return x;
 }
@@ -79,7 +78,7 @@ void menu2()
     cout<<"\t:-> _";
     char x;
     char route1[8],route2[8];
-    do{cout<<"\b";x=getche();}while(x!='0'&&x!='1'&&x!='2'&&x!='3'&&x!='4');
+    do{cout<<"\b";cin>>x;}while(x!='0'&&x!='1'&&x!='2'&&x!='3'&&x!='4');
     cout<<endl;
     if(x=='0') menu();
     else if(x=='1')

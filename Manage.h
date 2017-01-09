@@ -1,22 +1,22 @@
 #ifndef MANAGE_H_INCLUDED
 #define MANAGE_H_INCLUDED
 
+#define max 100
 #include "Graph.h"
 #include <fstream>
 #include <string>
 
-char filename1[50]="./Topology.txt";//¶ÁÈëµÄÎÄ¼şÃû×Ö
-//char filename2[50]="./Routing_Table.txt";//Â·ÓÉ±íÊä³öµÄÎÄ¼şÃû
+char filename1[50]="./Topology.txt";//è¯»å…¥çš„æ–‡ä»¶åå­—
 Graphlnk Cloud;
 
 using namespace std;
 
 
 void manage();
-void FinData(Graphlnk &G,char *filename);   //Â·ÓÉ±íÍØÆËµÄ½¨Á¢
-void Foutdata(char *route);    //Êä³öÂ·ÓÉ±í
-void Shortest_Path(Graphlnk &G,int v,int *dist,int *path);  //Dijkstra×î¶ÌÂ·¾¶Ëã·¨
-void Out(Graphlnk G,int *path,int *dist,int v1,int v2,int &metric,char *route);//Êä³ö×î¶ÌÂ·¾¶µÚÒ»ÁÚ½ÓÂ·ÓÉ±í
+void FinData(Graphlnk &G,char *filename);   //è·¯ç”±è¡¨æ‹“æ‰‘çš„å»ºç«‹
+void Foutdata(char *route);    //è¾“å‡ºè·¯ç”±è¡¨
+void Shortest_Path(Graphlnk &G,int v,int *dist,int *path);  //Dijkstraæœ€çŸ­è·¯å¾„ç®—æ³•
+void Out(Graphlnk G,int *path,int *dist,int v1,int v2,int &metric,char *route);//è¾“å‡ºæœ€çŸ­è·¯å¾„ç¬¬ä¸€é‚»æ¥è·¯ç”±è¡¨
 void save(Graphlnk &G,char *filename);
 
 void manage()
@@ -30,7 +30,7 @@ void FinData(Graphlnk &G,char *filename)
     fin.open(filename);
     if(!fin)
     {
-        cout<<"\t¶ÁÈ¡Êı¾İÊ§°Ü"<<endl;
+        cout<<"\tè¯»å–æ•°æ®å¤±è´¥"<<endl;
         exit(1);
     }
     char line[1024];
@@ -60,7 +60,7 @@ void FinData(Graphlnk &G,char *filename)
         int metric;
         fin>>route1;
         fin>>route2;
-        if(G.Cheat(route1)==true||G.Cheat(route2)==true)//Ã»ÓĞ´ËÂ·ÓÉÆ÷
+        if(G.Cheat(route1)==true||G.Cheat(route2)==true)//æ²¡æœ‰æ­¤è·¯ç”±å™¨
         {
             fin>>metric;
         }
@@ -76,60 +76,49 @@ void FinData(Graphlnk &G,char *filename)
     fin.close();
 }
 
-void Foutdata(Graphlnk G,char *route)    //Êä³öÂ·ÓÉ±í
+void Foutdata(Graphlnk G,char *route)    //è¾“å‡ºè·¯ç”±è¡¨
 {
-    int dist[max],path[max];
+    int dist[100],path[100];
     int metric,v1;
     v1=G.getNodeDest(route);
     Shortest_Path(G,v1,dist,path);
-    /*
-    ofstream fout;
-    remove(filename2);
-    fout.open(filename2);
-    if(!fout)
-    {
-        cout<<"±£´æÊ§°Ü"<<endl;
-        exit(1);
-    }*/
     int n=G.NumberOfVertices();
-    cout<<"\tÄ¿µÄÍøÂçIP\t¾àÀë\tÏÂÒ»ÌøÂ·ÓÉ±í\n";
+    cout<<"\tç›®çš„ç½‘ç»œIP\tè·ç¦»\tä¸‹ä¸€è·³è·¯ç”±è¡¨\n";
     for(int i=0;i<n;++i)
     {
-            cout<<"\t "<<G.NodeTable[i].network<<"\t";
-            Out(G,path,dist,v1,i,metric,route);
-            cout<<metric<<"\t";
-            if(route[0]=='0')
-            {
-                cout<<"Ö±½Ó½»¸¶"<<endl;
-            }
-            else
-            {
-                cout<<route<<endl;
-            }
+        cout<<"\t "<<G.NodeTable[i].network<<"\t";
+        Out(G,path,dist,v1,i,metric,route);
+        cout<<metric<<"\t";
+        if(route[0]=='0')
+        {
+            cout<<"ç›´æ¥äº¤ä»˜"<<endl;
+        }
+        else
+        {
+            cout<<route<<endl;
+        }
     }
-    //fout.close();
 }
-
 void Shortest_Path(Graphlnk &G,int v,int *dist,int *path)
 {
-    int n=G.NumberOfVertices();//µÃÂ·ÓÉÆ÷ÊıÄ¿
+    int n=G.NumberOfVertices();//å¾—è·¯ç”±å™¨æ•°ç›®
     bool *S=new bool[n];
     int i,j,k,w,min,u;
-    for(i=0;i<n;++i)//³õÊ¼»¯
+    for(i=0;i<n;++i)//åˆå§‹åŒ–
     {
         dist[i]=G.getMetric_Vehicle(v,i);//
         S[i]=false;
         if(i!=v&&dist[i]<maxValue)
         {
-            path[i]=v;//Ö±´ïÂ·¾¶
+            path[i]=v;//ç›´è¾¾è·¯å¾„
         }
         else
         {
-            path[i]=-1;//²»ÄÜÖ±´ï
+            path[i]=-1;//ä¸èƒ½ç›´è¾¾
         }
     }
-    S[v]=true;//±¾Éí
-    dist[v]=0;//±¾Éí
+    S[v]=true;//æœ¬èº«
+    dist[v]=0;//æœ¬èº«
     for(i=0;i<n-1;++i)
     {
         min=maxValue;
@@ -143,7 +132,7 @@ void Shortest_Path(Graphlnk &G,int v,int *dist,int *path)
             }
         }
         S[u]=true;
-        for(k=0;k<n;++k)//±È½Ï¸üĞÂ
+        for(k=0;k<n;++k)//æ¯”è¾ƒæ›´æ–°
         {
             w=G.getMetric_Vehicle(u,k);
             if(S[k]==false&&w<maxValue&&dist[u]+w<dist[k])
@@ -154,8 +143,7 @@ void Shortest_Path(Graphlnk &G,int v,int *dist,int *path)
         }
     }
 }
-
-void Out(Graphlnk G,int *path,int *dist,int v1,int v2,int &metric,char *route)//Êä³ö×î¶ÌÂ·¾¶µÚÒ»ÁÚ½ÓÂ·ÓÉ±í
+void Out(Graphlnk G,int *path,int *dist,int v1,int v2,int &metric,char *route)//è¾“å‡ºæœ€çŸ­è·¯å¾„ç¬¬ä¸€é‚»æ¥è·¯ç”±è¡¨
 {
     metric=dist[v2];
     if(v1==v2)
@@ -201,5 +189,4 @@ void save(Graphlnk &G,char *filename)
     }
     fout.close();
 }
-
 #endif // MANAGE_H_INCLUDED

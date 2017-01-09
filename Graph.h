@@ -6,46 +6,46 @@
 
 using namespace std;
 
-#define maxValue 100000000.0 //×î´ó¸¡µãÊı
+#define maxValue 100000000.0 //æœ€å¤§æµ®ç‚¹æ•°
 #define max 100
 
-struct Edge//±ß½áµã¶¨Òå
+struct Edge//è¾¹ç»“ç‚¹å®šä¹‰
 {
-    int dest;//ÏÂÒ»¸öÂ·ÓÉ´úºÅ
-    int metric;//¶ÈÁ¿
+    int dest;//ä¸‹ä¸€ä¸ªè·¯ç”±ä»£å·
+    int metric;//åº¦é‡
     struct Edge *next;
     Edge():next(nullptr){};
-    Edge(int dest):dest(dest),next(nullptr){}//¹¹Ôìº¯Êı
+    Edge(int dest):dest(dest),next(nullptr){}//æ„é€ å‡½æ•°
 };
 
 
-struct Vertex//Â·ÓÉ½áµã
+struct Vertex//è·¯ç”±ç»“ç‚¹
 {
-    char route[8];//Â·ÓÉºÅ
-    char network[15];//Á¬½ÓÍøÂçºÅ
-    struct Edge *head;//Ö¸Ïò±ß½áµãÁ´±íÍ·
+    char route[8];//è·¯ç”±å·
+    char network[15];//è¿æ¥ç½‘ç»œå·
+    struct Edge *head;//æŒ‡å‘è¾¹ç»“ç‚¹é“¾è¡¨å¤´
 };
 
 class Graphlnk
 {
 private:
-    int maxVertexs;//ÔÊĞíÂ·ÓÉÆ÷ÊıÄ¿
-    int numVertexs;//µ±Ç°Â·ÓÉÆ÷ÊıÄ¿
+    int maxVertexs;//å…è®¸è·¯ç”±å™¨æ•°ç›®
+    int numVertexs;//å½“å‰è·¯ç”±å™¨æ•°ç›®
 public:
-    Vertex NodeTable[max];//¶¥µã±í
-
+    Vertex NodeTable[max];//é¡¶ç‚¹è¡¨
+    
     Graphlnk(int sz=max);
-    int getNodeDest(char *route);             //µÃµ½Â·ÓÉÆ÷¶ÔÓ¦´úºÅ
-    void getName(int i,char *route);          //È¡´úºÅ´ú±íµÄÂ·ÓÉÆ÷
-    int NumberOfVertices(){return numVertexs;}//·µ»Øµ±Ç°Â·ÓÉÆ÷ÊıÄ¿
-    int getName_Net(char *network);           //È¡ÍøÂçºÅ¹ØÁªµÄÂ·ÓÉ´úºÅ
-    int getMetric_Vehicle(int v1,int v2);//·µ»ØÁ½µã¼ä¶ÈÁ¿
-    bool insertVertex(char *route,char *network);//²åÈëĞÂÂ·ÓÉÆ÷
-    bool deleteVertex(char *route);//É¾³ı´ËÂ·ÓÉÆ÷
-    bool insertEdge(int v1,int v2,int mertic);//²åÈëĞÂ±ß
-    bool deleteEdge(int v1,int v2);//É¾³ı±ß
-    bool Cheat(char *route);//cheatÊÇ·ñÒÑ´æ´ËÂ·ÓÉÆ÷
-    bool Cheat_Edge(char *route1,char *route2);//¼ì²éÊÇ·ñÓĞ´ËÂ·¾¶
+    int getNodeDest(char *route);             //å¾—åˆ°è·¯ç”±å™¨å¯¹åº”ä»£å·
+    void getName(int i,char *route);          //å–ä»£å·ä»£è¡¨çš„è·¯ç”±å™¨
+    int NumberOfVertices(){return numVertexs;}//è¿”å›å½“å‰è·¯ç”±å™¨æ•°ç›®
+    int getName_Net(char *network);           //å–ç½‘ç»œå·å…³è”çš„è·¯ç”±ä»£å·
+    int getMetric_Vehicle(int v1,int v2);//è¿”å›ä¸¤ç‚¹é—´åº¦é‡
+    bool insertVertex(char *route,char *network);//æ’å…¥æ–°è·¯ç”±å™¨
+    bool deleteVertex(char *route);//åˆ é™¤æ­¤è·¯ç”±å™¨
+    bool insertEdge(int v1,int v2,int mertic);//æ’å…¥æ–°è¾¹
+    bool deleteEdge(int v1,int v2);//åˆ é™¤è¾¹
+    bool Cheat(char *route);//cheatæ˜¯å¦å·²å­˜æ­¤è·¯ç”±å™¨
+    bool Cheat_Edge(char *route1,char *route2);//æ£€æŸ¥æ˜¯å¦æœ‰æ­¤è·¯å¾„
 };
 
 #endif // GRAPH_H_INCLUDED

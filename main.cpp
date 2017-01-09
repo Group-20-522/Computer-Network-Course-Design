@@ -2,30 +2,28 @@
 #include <stdlib.h>
 #include <cstdlib>
 #include "Manage.h"
-
+#define max 100
 using namespace std;
 
 char Menu();
 void menu();
 void menu1();
 void menu2();
-//void quit();
 
 int main()
-{   manage();   //Éú³ÉÂ·ÓÉÍØÆËÍ¼
+{
+    manage();   //ç”Ÿæˆè·¯ç”±æ‹“æ‰‘å›¾
     menu();
     return 0;
 }
-
-char Menu() //²Ëµ¥¸ñÊ½
+char Menu() //èœå•æ ¼å¼
 {
-    system("cls");
-    cout<<"\t-----------------------------------------"<<endl;
-    cout<<"\t-       1.  Éú³ÉÖ¸¶¨Â·ÓÉÆ÷µÄÂ·ÓÉ±í      -"<<endl;
-    cout<<"\t-       2.  ĞŞ¸ÄÍøÂçµÄÍØÆË              -"<<endl;
-    cout<<"\t-       0.  ±£´æ²¢ÍË³ö                  -"<<endl;
-    cout<<"\t-----------------------------------------"<<endl;
-    cout<<"\t:-> _";
+    cout<<"\t----------------------------------------"<<endl;
+    cout<<"\t-       1.  ç”ŸæˆæŒ‡å®šè·¯ç”±å™¨çš„è·¯ç”±è¡¨         -"<<endl;
+    cout<<"\t-       2.  ä¿®æ”¹ç½‘ç»œçš„æ‹“æ‰‘               -"<<endl;
+    cout<<"\t-       0.  ä¿å­˜å¹¶é€€å‡º                   -"<<endl;
+    cout<<"\t----------------------------------------"<<endl;
+    cout<<"\tè¯·è¾“å…¥å¯¹åº”æ‰§è¡Œæ­¥éª¤åºå·:";
     char x;
     do{cout<<"\b";cin>>x;}while(x!='0'&&x!='1'&&x!='2');
     if(x=='0') {save(Cloud,filename1);exit(0);}
@@ -41,41 +39,37 @@ void menu()
         menu2();
     else exit(1);
 }
-
 void menu1()
 {
-    system("cls");
     char route[8];
     cout<<"\t-----------------------------------------"<<endl;
-    cout<<"\t-        Éú³ÉÖ¸¶¨Â·ÓÉÆ÷µÄÂ·ÓÉ±í         -"<<endl;
+    cout<<"\t-        ç”ŸæˆæŒ‡å®šè·¯ç”±å™¨çš„è·¯ç”±è¡¨         -"<<endl;
     cout<<"\t-----------------------------------------"<<endl;
-    cout<<"\t:->Â·ÓÉºÅ(Rn): ";
+    cout<<"\tè¯·è¾“å…¥è·¯ç”±å·(è¾“å…¥æ ¼å¼ä¸ºR?): ";
     cin>>route;
     if(Cloud.Cheat(route)==true)
     {
-        cout<<"Ã»ÓĞ´ËÂ·ÓÉÆ÷!"<<endl;
+        cout<<"æ²¡æœ‰æ­¤è·¯ç”±å™¨!"<<endl;
     }
     else
     {
         Foutdata(Cloud,route);
     }
-    system("pause");
+    cout<<endl;
     menu();
 }
-
 void menu2()
 {
-    system("cls");
     cout<<"\t-----------------------------------------"<<endl;
-    cout<<"\t-            ĞŞ¸ÄÍøÂçµÄÍØÆË             -"<<endl;
+    cout<<"\t-            ä¿®æ”¹ç½‘ç»œçš„æ‹“æ‰‘             -"<<endl;
     cout<<"\t-----------------------------------------"<<endl;
-    cout<<"\t-          1.  È¥µôÖ¸¶¨Â·ÓÉÆ÷           -"<<endl;
-    cout<<"\t-          2.  È¥µôÖ¸¶¨±ß               -"<<endl;
-    cout<<"\t-          3.  ¼ÓÖ¸¶¨Â·ÓÉÆ÷             -"<<endl;
-    cout<<"\t-          4.  ¼ÓÖ¸¶¨±ß                 -"<<endl;
-    cout<<"\t-          0.  ·µ»ØÖ÷²Ëµ¥               -"<<endl;
+    cout<<"\t-          1.  å»æ‰æŒ‡å®šè·¯ç”±å™¨           -"<<endl;
+    cout<<"\t-          2.  å»æ‰æŒ‡å®šè¾¹               -"<<endl;
+    cout<<"\t-          3.  åŠ æŒ‡å®šè·¯ç”±å™¨             -"<<endl;
+    cout<<"\t-          4.  åŠ æŒ‡å®šè¾¹                 -"<<endl;
+    cout<<"\t-          0.  è¿”å›ä¸»èœå•               -"<<endl;
     cout<<"\t-----------------------------------------"<<endl;
-    cout<<"\t:-> _";
+    cout<<"\tè¯·è¾“å…¥å¯¹åº”æ‰§è¡Œæ­¥éª¤åºå·:";
     char x;
     char route1[8],route2[8];
     do{cout<<"\b";cin>>x;}while(x!='0'&&x!='1'&&x!='2'&&x!='3'&&x!='4');
@@ -83,88 +77,69 @@ void menu2()
     if(x=='0') menu();
     else if(x=='1')
     {
-        cout<<"\t:->Â·ÓÉºÅ(Rn): ";
+        cout<<"\tè¯·è¾“å…¥è·¯ç”±å·(è¾“å…¥æ ¼å¼ä¸ºR?): ";
         cin>>route1;
         if(Cloud.Cheat(route1)==true)
         {
-            cout<<"\tÔ­±¾¾ÍÃ»ÓĞ¸ÃÂ·ÓÉÆ÷"<<endl;
+            cout<<"\tåŸæœ¬å°±æ²¡æœ‰è¯¥è·¯ç”±å™¨"<<endl;
         }
         else
         {
             if(Cloud.deleteVertex(route1))
-                cout<<"\tÂ·ÓÉÆ÷ÒÑÉ¾³ı";
+                cout<<"\tè·¯ç”±å™¨å·²åˆ é™¤";
         }
     }
     else if(x=='2')
     {
-        cout<<"\tÏàÁÚÁ½Â·ÓÉÆ÷(Rn): "<<endl;
-        cout<<"\t:->Ò»¶Ë  : ";
+        cout<<"\tè¯·åˆ†åˆ«è¾“å…¥è¯¥è¾¹ä¸¤ç«¯è·¯ç”±å™¨:"<<endl;
+        cout<<"\tä¸€ç«¯  : ";
         cin>>route1;
-        cout<<"\t:->ÁíÒ»¶Ë: ";
+        cout<<"\tå¦ä¸€ç«¯: ";
         cin>>route2;
-        if(Cloud.Cheat_Edge(route1,route2)==true)//´æÔÚ±ß
+        if(Cloud.Cheat_Edge(route1,route2)==true)//å­˜åœ¨è¾¹
         {
             Cloud.deleteEdge(Cloud.getNodeDest(route1),Cloud.getNodeDest(route2));
         }
         else
         {
-            cout<<"\t²»´æÔÚ´Ë±ß"<<endl;
+            cout<<"\tä¸å­˜åœ¨æ­¤è¾¹"<<endl;
         }
     }
     else if(x=='3')
     {
-        cout<<"\t:->Â·ÓÉºÅ(Rn): ";
+        cout<<"\tè¯·è¾“å…¥è·¯ç”±å·(è¾“å…¥æ ¼å¼ä¸ºR?): ";
         cin>>route1;
         if(Cloud.Cheat(route1)==false)
         {
-            cout<<"\tÒÑ¾­ÓĞ¸ÃÂ·ÓÉÆ÷"<<endl;
+            cout<<"\tå·²ç»æœ‰è¯¥è·¯ç”±å™¨"<<endl;
         }
         else
         {
             char network[10];
-            cout<<"\t:->¸ÃÂ·ÓÉÆ÷Á¬½ÓµÄÍøÂç(x.x.x.x): ";
+            cout<<"\tè¯·è¾“å…¥è¯¥è·¯ç”±å™¨è¿æ¥çš„ç½‘ç»œ(è¾“å…¥æ ¼å¼ä¸º?.x.x.x): ";
             cin>>network;
             Cloud.insertVertex(route1, network);
         }
     }
     else if(x=='4')
     {
-        cout<<"\t:->ÏàÁÚÁ½Â·ÓÉÆ÷(Rn):";
-        cout<<"\tÒ»¶Ë:";
+        cout<<"\tè¯·åˆ†åˆ«è¾“å…¥è¯¥è¾¹ä¸¤ç«¯è·¯ç”±å™¨:";
+        cout<<"\tä¸€ç«¯:";
         cin>>route1;
-        cout<<"\tÁíÒ»¶Ë:";
+        cout<<"\tå¦ä¸€ç«¯:";
         cin>>route2;
         if(Cloud.Cheat_Edge(route1,route2)==true)
         {
-            cout<<"\t´Ë±ßÒÑ´æÔÚ"<<endl;
+            cout<<"\tæ­¤è¾¹å·²å­˜åœ¨"<<endl;
         }
         else
         {
             int mertic;
-            cout<<"\t:->¶ÈÁ¿: ";
+            cout<<"\tè¯¥è¾¹çš„åº¦é‡ä¸º:";
             cin>>mertic;
             Cloud.insertEdge(Cloud.getNodeDest(route1),Cloud.getNodeDest(route2),mertic);
         }
     }
-    system("pause");
+    cout<<endl;
     menu();
 }
-
-/*
-void quit()
-{
-    cout<<"-----------------------------------------"<<endl;
-    cout<<"-          1.  ·µ»ØÖ÷²Ëµ¥               -"<<endl;
-    cout<<"-          2.  ±£´æ²¢ÍË³ö               -"<<endl;
-    cout<<"-----------------------------------------"<<endl;
-    cout<<":-> _";
-    char x;
-    do{cout<<"\b";x=getche();}while(x!='1'&&x!='2');
-    if(x=='1') menu();
-    else if(x=='2')
-    {
-        save(Cloud,filename1);
-        exit(0);
-    }
-}
-*/

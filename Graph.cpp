@@ -10,7 +10,7 @@ Graphlnk::Graphlnk(int sz)
     }
 }
 
-int Graphlnk::getNodeDest(char *route)//µÃµ½Â·ÓÉÆ÷¶ÔÓ¦´úºÅ
+int Graphlnk::getNodeDest(char *route)//å¾—åˆ°è·¯ç”±å™¨å¯¹åº”ä»£å·
 {
     for(int i=0;i<numVertexs;++i)
     {
@@ -22,7 +22,7 @@ int Graphlnk::getNodeDest(char *route)//µÃµ½Â·ÓÉÆ÷¶ÔÓ¦´úºÅ
     return -1;
 }
 
-void Graphlnk::getName(int i,char *route)//È¡´úºÅ´ú±íµÄÂ·ÓÉÆ÷
+void Graphlnk::getName(int i,char *route)//å–ä»£å·ä»£è¡¨çš„è·¯ç”±å™¨
 {
     for(int m=0;m<5;++m)
     {
@@ -30,7 +30,7 @@ void Graphlnk::getName(int i,char *route)//È¡´úºÅ´ú±íµÄÂ·ÓÉÆ÷
     }
 }
 
-int Graphlnk::getName_Net(char *network) //È¡ÍøÂçºÅ¹ØÁªµÄÂ·ÓÉ´úºÅ
+int Graphlnk::getName_Net(char *network) //å–ç½‘ç»œå·å…³è”çš„è·¯ç”±ä»£å·
 {
     for(int i=0;i<numVertexs;++i)
     {
@@ -49,10 +49,10 @@ bool Graphlnk::Cheat(char *route)
     {
         if(strcmp(NodeTable[i].route,route)==0)
         {
-            return false;//ÒÑÓĞ£¬²»ĞèÒªĞÂ¼ÓÈë
+            return false;//å·²æœ‰ï¼Œä¸éœ€è¦æ–°åŠ å…¥
         }
     }
-    return true;//ĞèÒª¼ÓÈë´ËÂ·ÓÉÆ÷
+    return true;//éœ€è¦åŠ å…¥æ­¤è·¯ç”±å™¨
 }
 
 bool Graphlnk::Cheat_Edge(char *route1,char *route2)
@@ -62,7 +62,7 @@ bool Graphlnk::Cheat_Edge(char *route1,char *route2)
     v2=getNodeDest(route2);
     if(v1==-1||v2==-1)
     {
-        cerr<<"\tÄ³Ò»Â·ÓÉÆ÷²»´æÔÚ"<<endl;
+        cerr<<"\tæŸä¸€è·¯ç”±å™¨ä¸å­˜åœ¨"<<endl;
         return false;
     }
     else
@@ -112,11 +112,11 @@ int Graphlnk::getMetric_Vehicle(int v1,int v2)
 
 
 
-bool Graphlnk::insertVertex(char *route,char *network)//Ìí¼ÓÂ·ÓÉÆ÷
+bool Graphlnk::insertVertex(char *route,char *network)//æ·»åŠ è·¯ç”±å™¨
 {
     if(numVertexs==maxVertexs)
     {
-        cerr<<"\tÂú£¬²»ÄÜ²åÈë"<<endl;
+        cerr<<"\tæ»¡ï¼Œä¸èƒ½æ’å…¥"<<endl;
         return false;
     }
     for(int i=0;i<5;++i)
@@ -131,7 +131,7 @@ bool Graphlnk::insertVertex(char *route,char *network)//Ìí¼ÓÂ·ÓÉÆ÷
     return true;
 }
 
-bool Graphlnk::deleteEdge(int v1,int v2)//É¾±ß
+bool Graphlnk::deleteEdge(int v1,int v2)//åˆ è¾¹
 {
     if(v1!=-1&&v2!=-1)
     {
@@ -180,11 +180,49 @@ bool Graphlnk::deleteEdge(int v1,int v2)//É¾±ß
     }
     return false;
 }
-
-
-bool Graphlnk::deleteVertex(char *route)//É¾³ıÂ·ÓÉÆ÷
+bool Graphlnk::insertEdge(int v1,int v2,int metric)//æ·»è¾¹
 {
-    int v=getNodeDest(route);//µÃµ½Â·ÓÉÆ÷´úºÅ
+    if(v1>=0&&v1<numVertexs&&v2>=0&&v2<numVertexs)
+    {
+        Edge *p=NodeTable[v1].head;
+        Edge *q=NodeTable[v2].head;
+        while(p!=NULL&&p->dest!=v2)
+        {
+            p=p->next;
+        }
+        if(p!=NULL)
+        {
+            cerr<<"\tå·²å­˜åœ¨æ­¤è·¯çº¿"<<endl;
+            return false;
+        }
+        p=new Edge;
+        p->dest=v2;
+        p->metric=metric;
+        p->next=NodeTable[v1].head;
+        NodeTable[v1].head=p;
+        while(q!=NULL&&q->dest!=v1)
+        {
+            q=q->next;
+        }
+        if(q!=NULL)
+        {
+            cerr<<"\tå·²å­˜åœ¨æ­¤è·¯çº¿"<<endl;
+            cout<<"\tv2:"<<v2+1<<"-v1:"<<v1+1<<endl;
+            return false;
+        }
+        q=new Edge;
+        q->dest=v1;
+        q->metric=metric;
+        q->next=NodeTable[v2].head;
+        NodeTable[v2].head=q;
+        return true;
+    }
+    return false;
+}
+
+bool Graphlnk::deleteVertex(char *route)//åˆ é™¤è·¯ç”±å™¨
+{
+    int v=getNodeDest(route);//å¾—åˆ°è·¯ç”±å™¨ä»£å·
     if(numVertexs==1||v<0||v>maxVertexs)
     {
         return false;
@@ -193,9 +231,9 @@ bool Graphlnk::deleteVertex(char *route)//É¾³ıÂ·ÓÉÆ÷
     int k;
     while(NodeTable[v].head!=NULL)
     {
-        p=NodeTable[v].head;//ÕÒµ½É¾³ıµÄ¶¥µãµÄ±ßÁ´±í
+        p=NodeTable[v].head;//æ‰¾åˆ°åˆ é™¤çš„é¡¶ç‚¹çš„è¾¹é“¾è¡¨
         k=p->dest;
-        s=NodeTable[k].head;//¿ªÊ¼É¾³ıÁÚ½Ó¶¥µãµÄ±ßÁ´±íÉÏµÄvµã
+        s=NodeTable[k].head;//å¼€å§‹åˆ é™¤é‚»æ¥é¡¶ç‚¹çš„è¾¹é“¾è¡¨ä¸Šçš„vç‚¹
         t=NULL;
         while(s!=NULL&&s->dest!=v)
         {
@@ -220,11 +258,11 @@ bool Graphlnk::deleteVertex(char *route)//É¾³ıÂ·ÓÉÆ÷
     numVertexs--;
     for(int i=0;i<5;++i)
     {
-        NodeTable[v].route[i]=NodeTable[numVertexs].route[i];//Ìî²¹
+        NodeTable[v].route[i]=NodeTable[numVertexs].route[i];//å¡«è¡¥
     }
     for(int i=0;i<10;++i)
     {
-        NodeTable[v].network[i]=NodeTable[numVertexs].network[i];//Ìî²¹
+        NodeTable[v].network[i]=NodeTable[numVertexs].network[i];//å¡«è¡¥
     }
     NodeTable[v].head=NodeTable[numVertexs].head;
     p=NodeTable[v].head;
@@ -248,47 +286,6 @@ bool Graphlnk::deleteVertex(char *route)//É¾³ıÂ·ÓÉÆ÷
     return true;
 }
 
-
-bool Graphlnk::insertEdge(int v1,int v2,int metric)//Ìí±ß
-{
-    if(v1>=0&&v1<numVertexs&&v2>=0&&v2<numVertexs)
-    {
-        Edge *p=NodeTable[v1].head;
-        Edge *q=NodeTable[v2].head;
-        while(p!=NULL&&p->dest!=v2)
-        {
-            p=p->next;
-        }
-        if(p!=NULL)
-        {
-            cerr<<"\tÒÑ´æÔÚ´ËÂ·Ïß"<<endl;
-            return false;
-        }
-        p=new Edge;
-
-        p->dest=v2;
-        p->metric=metric;
-        p->next=NodeTable[v1].head;
-        NodeTable[v1].head=p;
-        while(q!=NULL&&q->dest!=v1)
-        {
-            q=q->next;
-        }
-        if(q!=NULL)
-        {
-            cerr<<"\tÒÑ´æÔÚ´ËÂ·Ïß"<<endl;
-            cout<<"\tv2:"<<v2+1<<"-v1:"<<v1+1<<endl;
-            return false;
-        }
-        q=new Edge;
-        q->dest=v1;
-        q->metric=metric;
-        q->next=NodeTable[v2].head;
-        NodeTable[v2].head=q;
-        return true;
-    }
-    return false;
-}
 
 
 

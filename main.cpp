@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <cstdlib>
 #include "Manage.h"
 
 using namespace std;
@@ -58,8 +59,7 @@ void menu1()
     {
         Foutdata(Cloud,route);
     }
-    cout<<"\n\tPress any key to continue.";
-    getch();
+    system("pause");
     menu();
 }
 
@@ -146,8 +146,7 @@ void menu2()
             Cloud.insertEdge(Cloud.getNodeDest(route1),Cloud.getNodeDest(route2),mertic);
         }
     }
-    cout<<"\n\tPress any key to continue.";
-    getch();
+    system("pause");
     menu();
 }
 

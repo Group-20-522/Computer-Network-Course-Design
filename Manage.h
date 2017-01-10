@@ -5,24 +5,29 @@
 #include "Graph.h"
 #include <fstream>
 #include <string>
-
+#include <vector>
+#include <string.h>
 char filename1[50]="./Topology.txt";//读入的文件名字
 Graphlnk Cloud;
-
 using namespace std;
 
 
 void manage();
+void Tree();
 void FinData(Graphlnk &G,char *filename);   //路由表拓扑的建立
 void Foutdata(char *route);    //输出路由表
 void Shortest_Path(Graphlnk &G,int v,int *dist,int *path);  //Dijkstra最短路径算法
 void Out(Graphlnk G,int *path,int *dist,int v1,int v2,int &metric,char *route);//输出最短路径第一邻接路由表
 void save(Graphlnk &G,char *filename);
+void Out_path(Graphlnk G,int *path,int *dist,int v);
+void Trees_(Graphlnk G,char *path,int v1,int m);
+
 
 void manage()
 {
     FinData(Cloud,filename1);
 }
+
 
 void FinData(Graphlnk &G,char *filename)
 {
@@ -76,11 +81,34 @@ void FinData(Graphlnk &G,char *filename)
     fin.close();
 }
 
+
+void Trees_(Graphlnk G,int *path,int v1,int m)
+{
+    char route[10];
+    int n=G.NumberOfVertices();
+    for(int i=0;i<n;++i)
+    {
+        if(path[i]==v1)
+        {
+            for(int k=0;k<m;++k)
+            {
+                cout<<"---";
+            }
+            G.getName(i,route);
+            cout<<route<<endl;
+            Trees_(G,path,i,m+1);
+        }
+    }
+    return;
+}
+
+
 void Foutdata(Graphlnk G,char *route)    //输出路由表
 {
     int dist[100],path[100];
-    int metric,v1;
-    v1=G.getNodeDest(route);
+    int metric,v1,first;
+    first=G.getNodeDest(route);
+    v1=first;
     Shortest_Path(G,v1,dist,path);
     int n=G.NumberOfVertices();
     cout<<"\t目的网络IP\t距离\t下一跳路由表\n";
@@ -98,7 +126,14 @@ void Foutdata(Graphlnk G,char *route)    //输出路由表
             cout<<route<<endl;
         }
     }
+    cout<<endl;
+    G.getName(first,route);
+    cout<<route<<endl;
+    Trees_(G,path,v1,1);
 }
+
+
+
 void Shortest_Path(Graphlnk &G,int v,int *dist,int *path)
 {
     int n=G.NumberOfVertices();//得路由器数目

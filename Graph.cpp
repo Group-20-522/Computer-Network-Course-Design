@@ -24,6 +24,10 @@ int Graphlnk::getNodeDest(char *route)//得到路由器对应代号
 
 void Graphlnk::getName(int i,char *route)//取代号代表的路由器
 {
+    /*if(i>NumberOfVertices())
+    {
+        return;
+    }*/
     for(int m=0;m<5;++m)
     {
         route[m]=NodeTable[i].route[m];

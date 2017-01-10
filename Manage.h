@@ -92,8 +92,9 @@ void Trees_(Graphlnk G,int *path,int v1,int m)
         {
             for(int k=0;k<m;++k)
             {
-                cout<<"---";
+                cout<<"    ";
             }
+            cout<<"--";
             G.getName(i,route);
             cout<<route<<endl;
             Trees_(G,path,i,m+1);
@@ -128,7 +129,7 @@ void Foutdata(Graphlnk G,char *route)    //输出路由表
     }
     cout<<endl;
     G.getName(first,route);
-    cout<<route<<endl;
+    cout<<"  "<<route<<endl;
     Trees_(G,path,v1,1);
 }
 
